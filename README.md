@@ -152,3 +152,5 @@ Response<Integer> getInteger();
 }
 ```
 暂不支持返回值中存在循环依赖。如果有，会抛出异常。
+
+详细使用方法可以参考这个仓库：https://github.com/markytsai/mock-test

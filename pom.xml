@@ -4,14 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-<!--    <groupId>top.mochoong.feign</groupId>-->
-<!--    <artifactId>mocker</artifactId>-->
-    <version>11.0.0</version>
+    <groupId>top.mochoong.feign</groupId>
+    <artifactId>mocker</artifactId>
+    <version>1.0.0</version>
     <name>mocker</name>
-
-
-    <groupId>io.github.openfeign</groupId>
-    <artifactId>feign-hystrix</artifactId>
 
     <build>
         <plugins>
