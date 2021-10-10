@@ -2,11 +2,38 @@
 
 本地开发需要依赖别人的服务时候，如果不想也把依赖服务启动起来，可以对自己项目中的feign client进行mock，这个工具支持直接在feign client接口上对返回值进行mock，不需要在fallback中编写负责冗长的代码来实现。
 
-##### 原理
+### 如何构建
+git clone git@github.com:markytsai/feign-hystrix-mocker.git \
+mvn clean install -DskipTest=true
+
+如果你知道maven或者gradle的依赖原则，则根据规则引用生成的jar包
+如果不清楚，可以直接在spring-cloud-starter-openfeign排除内部引用的feign-hystrix版本，然后引入自己生成的jar包
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+    <version>2.0.1.RELEASE</version>
+    <exclusions>
+        <exclusion>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-hystrix</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+<--自己打包的版本-->
+<dependency>
+    <groupId>top.mochoong.feign</groupId>
+    <artifactId>mocker</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### 原理
 
 Feign mocker在feign开源项目[feign](https://github.com/OpenFeign/feign)中[feign-hystrix](https://github.com/OpenFeign/feign/tree/master/hystrix)模块功能的基础上，对fallback进行了增强，即对FallbackFactory.Default进行封装，当项目启动构建初始化FallbackFactory时候，会根据feign client是否定义@Mock选择是否使用EnhancedFallbackFactory，以替换FallbackFactory默认的实现FallbackFactory.Default. 如远程调用失败则会进行返回值mock；如果调用成功，则不会进入任何一个FallbackFactory.
 
-##### 使用方法
+### 使用方法
 
 只需要在远程调用接口上使用@Mock注解，@Mapping注解配置类中字段的值。type是类型，name是在type类型中的字段，值是value。value格式不匹配会抛出异常，这里需要用户保证正确性，代码不做判断。
 
